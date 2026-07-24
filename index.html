@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>¡Sorpresa!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --tinta:#111111;
+    --acento:#FF1E56;
+    --papel:#FFFFFF;
+    --display:'Bungee', system-ui, 'Arial Black', sans-serif;
+  }
+
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  html,body{
+    height:100%;
+    margin:0;
+    background:var(--papel);
+    overflow:hidden;
+    overscroll-behavior:none;
+    touch-action:manipulation;
+    user-select:none;
+    -webkit-user-select:none;
+  }
+
+  #sprite{ position:absolute; width:0; height:0; overflow:hidden; }
+
+  /* ---------- PORTADA ---------- */
+  #portada{
+    position:fixed;
+    inset:0;
+    display:grid;
+    place-items:center;
+    padding:24px;
+    z-index:30;
+  }
+
+  #abrir{
+    font-family:var(--display);
+    background:var(--papel);
+    color:var(--tinta);
+    border:5px solid var(--tinta);
+    box-shadow:12px 12px 0 var(--acento);
+    padding:34px 30px 30px;
+    border-radius:0;
+    cursor:pointer;
+    transform:rotate(-2.5deg);
+    animation:latido 1.6s ease-in-out infinite;
+    display:block;
+    max-width:100%;
+  }
+
+  #abrir .grande{
+    display:block;
+    font-size:clamp(38px, 13vw, 84px);
+    line-height:.95;
+    letter-spacing:.01em;
+    color:var(--acento);
+  }
+
+  #abrir .pequeno{
+    display:block;
+    margin-top:14px;
+    font-family:system-ui, -apple-system, sans-serif;
+    font-weight:700;
+    font-size:clamp(14px, 4.2vw, 20px);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--tinta);
+  }
+
+  @keyframes latido{
+    0%,100%{ transform:rotate(-2.5deg) scale(1); }
+    50%    { transform:rotate(-2.5deg) scale(1.045); }
+  }
+
+  #abrir:active{ transform:rotate(-2.5deg) scale(.96); animation:none; }
+
+  .fuera{ animation:desaparecer .35s ease-in forwards; pointer-events:none; }
+  @keyframes desaparecer{
+    to{ transform:rotate(-2.5deg) scale(.2); opacity:0; }
+  }
+
+  /* ---------- PIES ---------- */
+  #escena{ position:fixed; inset:0; z-index:10; }
+
+  .pie{
+    position:absolute;
+    top:0; left:0;
+    will-change:transform;
+    filter:drop-shadow(0 3px 4px rgba(0,0,0,.20));
+    pointer-events:none;
+  }
+
+  /* ---------- BOTÓN ---------- */
+  #boton{
+    position:fixed;
+    z-index:20;
+    font-family:var(--display);
+    font-size:clamp(15px, 4.6vw, 22px);
+    line-height:1.1;
+    text-align:center;
+    background:var(--acento);
+    color:var(--papel);
+    border:4px solid var(--tinta);
+    box-shadow:7px 7px 0 var(--tinta);
+    padding:16px 22px;
+    cursor:pointer;
+    max-width:76vw;
+    transition:transform .18s cubic-bezier(.3,1.6,.5,1);
+  }
+
+  #boton:active{ transform:translate(4px,4px); box-shadow:3px 3px 0 var(--tinta); }
+  #boton[hidden]{ display:none; }
+
+  #abrir:focus-visible, #boton:focus-visible{ outline:4px solid #00A6FB; outline-offset:4px; }
+</style>
+</head>
+<body>
+
+<!-- ====== LOS 5 PIES (SVG) ====== -->
+<svg id="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- 1. Pie normal -->
+  <symbol id="pie1" viewBox="0 0 120 180">
+    <g fill="#F0C09A">
+      <ellipse cx="60" cy="70"  rx="44" ry="31"/>
+      <ellipse cx="60" cy="106" rx="33" ry="45"/>
+      <ellipse cx="60" cy="141" rx="34" ry="33"/>
+      <circle cx="26"  cy="52" r="15"/>
+      <circle cx="52"  cy="37" r="11.5"/>
+      <circle cx="74"  cy="37" r="10"/>
+      <circle cx="92"  cy="45" r="9"/>
+      <circle cx="106" cy="59" r="7.5"/>
+    </g>
+  </symbol>
+
+  <!-- 2. Pie piel oscura -->
+  <symbol id="pie2" viewBox="0 0 120 180">
+    <g fill="#8A5330">
+      <ellipse cx="60" cy="70"  rx="44" ry="31"/>
+      <ellipse cx="60" cy="106" rx="33" ry="45"/>
+      <ellipse cx="60" cy="141" rx="34" ry="33"/>
+      <circle cx="26"  cy="52" r="15"/>
+      <circle cx="52"  cy="37" r="11.5"/>
+      <circle cx="74"  cy="37" r="10"/>
+      <circle cx="92"  cy="45" r="9"/>
+      <circle cx="106" cy="59" r="7.5"/>
+    </g>
+    <ellipse cx="60" cy="120" rx="20" ry="26" fill="#C98A5E" opacity=".55"/>
+  </symbol>
+
+  <!-- 3. Pie con las uñas pintadas -->
+  <symbol id="pie3" viewBox="0 0 120 180">
+    <g fill="#F8D5B8">
+      <ellipse cx="60" cy="70"  rx="44" ry="31"/>
+      <ellipse cx="60" cy="106" rx="33" ry="45"/>
+      <ellipse cx="60" cy="141" rx="34" ry="33"/>
+      <circle cx="26"  cy="52" r="15"/>
+      <circle cx="52"  cy="37" r="11.5"/>
+      <circle cx="74"  cy="37" r="10"/>
+      <circle cx="92"  cy="45" r="9"/>
+      <circle cx="106" cy="59" r="7.5"/>
+    </g>
+    <g fill="#E4002B">
+      <ellipse cx="24"  cy="45" rx="9"   ry="7"/>
+      <ellipse cx="51"  cy="31" rx="7"   ry="5.5"/>
+      <ellipse cx="74"  cy="31" rx="6"   ry="5"/>
+      <ellipse cx="93"  cy="39" rx="5.5" ry="4.5"/>
+      <ellipse cx="108" cy="54" rx="4.5" ry="3.8"/>
+    </g>
+  </symbol>
+
+  <!-- 4. Pie peludo -->
+  <symbol id="pie4" viewBox="0 0 120 180">
+    <g fill="#E8B183">
+      <ellipse cx="60" cy="70"  rx="44" ry="31"/>
+      <ellipse cx="60" cy="106" rx="33" ry="45"/>
+      <ellipse cx="60" cy="141" rx="34" ry="33"/>
+      <circle cx="26"  cy="52" r="15"/>
+      <circle cx="52"  cy="37" r="11.5"/>
+      <circle cx="74"  cy="37" r="10"/>
+      <circle cx="92"  cy="45" r="9"/>
+      <circle cx="106" cy="59" r="7.5"/>
+    </g>
+    <g stroke="#4A2E18" stroke-width="3" stroke-linecap="round" fill="none">
+      <path d="M40 78 q5 -9 11 -3"/>
+      <path d="M62 72 q5 -10 11 -4"/>
+      <path d="M82 82 q6 -8 11 -2"/>
+      <path d="M46 100 q5 -9 11 -3"/>
+      <path d="M68 96 q6 -9 11 -3"/>
+      <path d="M52 122 q5 -9 11 -3"/>
+      <path d="M74 118 q5 -9 11 -3"/>
+      <path d="M56 144 q5 -9 11 -3"/>
+      <path d="M22 46 q5 -8 10 -2"/>
+      <path d="M50 30 q4 -7 9 -2"/>
+    </g>
+  </symbol>
+
+  <!-- 5. Pie con chancla -->
+  <symbol id="pie5" viewBox="0 0 120 180">
+    <path d="M60 12 C104 12 116 46 114 84 C112 122 96 172 60 172 C24 172 8 122 6 84 C4 46 16 12 60 12 Z"
+          fill="#1B9AAA"/>
+    <g fill="#F2C79C">
+      <ellipse cx="60" cy="70"  rx="42" ry="30"/>
+      <ellipse cx="60" cy="106" rx="32" ry="44"/>
+      <ellipse cx="60" cy="140" rx="33" ry="32"/>
+      <circle cx="27"  cy="53" r="14"/>
+      <circle cx="52"  cy="38" r="11"/>
+      <circle cx="73"  cy="38" r="9.5"/>
+      <circle cx="91"  cy="46" r="8.5"/>
+      <circle cx="104" cy="59" r="7"/>
+    </g>
+    <g stroke="#FFD400" stroke-width="9" stroke-linecap="round" fill="none">
+      <path d="M40 46 L18 92"/>
+      <path d="M40 46 L100 92"/>
+    </g>
+    <circle cx="40" cy="46" r="7" fill="#FFD400"/>
+  </symbol>
+</svg>
+
+<div id="escena"></div>
+
+<button id="boton" hidden>PARAR</button>
+
+<div id="portada">
+  <button id="abrir">
+    <span class="grande">¡SORPRESA!</span>
+    <span class="pequeno">toca aquí</span>
+  </button>
+</div>
+
+<script>
+/* =========================================================
+   CONFIGURACIÓN — toca solo esto
+   ========================================================= */
+const CONFIG = {
+  PIES_INICIALES   : 6,      // cuántos salen al abrir
+  MAX_PIES         : window.innerWidth < 640 ? 65 : 110,
+  MS_ENTRE_PIES    : 850,    // cada cuánto aparece uno solo
+  PIES_POR_PULSAR  : 10,     // cuántos salen al pulsar el botón
+  ACELERACION      : 1.30,   // cuánto se acelera todo al pulsar
+  VELOCIDAD_MAX    : 3.2,    // tope, para que no se descontrole del todo
+
+  // Si un día quieres fotos reales en vez de dibujos:
+  //   1) crea una carpeta "img" junto a este archivo
+  //   2) mete pie1.png ... pie5.png (fondo transparente)
+  //   3) pon USAR_IMAGENES en true
+  USAR_IMAGENES : true,
+  IMAGENES : ['img/pie1.png','img/pie2.png','img/pie3.png','img/pie4.png','img/pie5.png'],
+
+  TEXTOS_BOTON : [
+    'PARAR',
+    'PARAR (en serio)',
+    'PARA YA',
+    'POR FAVOR',
+    'TE LO SUPLICO',
+    'ESTE BOTÓN MIENTE',
+    'ACEPTA LOS PIES'
+  ]
+};
+
+/* =========================================================
+   MOTOR
+   ========================================================= */
+const escena  = document.getElementById('escena');
+const portada = document.getElementById('portada');
+const abrir   = document.getElementById('abrir');
+const boton   = document.getElementById('boton');
+
+const pies = [];
+let multiplicador = 1;
+let pulsaciones   = 0;
+let corriendo     = false;
+
+const azar = (min, max) => Math.random() * (max - min) + min;
+
+function anchoVentana(){ return window.innerWidth; }
+function altoVentana(){ return window.innerHeight; }
+
+function crearPie(){
+  if (pies.length >= CONFIG.MAX_PIES) return;
+
+  const menor = Math.min(anchoVentana(), altoVentana());
+  const ancho = azar(menor * 0.11, menor * 0.24);
+  const alto  = ancho * 1.5;
+  const n     = 1 + Math.floor(Math.random() * 5);
+
+  let el;
+  if (CONFIG.USAR_IMAGENES){
+    el = document.createElement('img');
+    el.src = CONFIG.IMAGENES[n - 1];
+    el.alt = '';
+  } else {
+    el = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    el.setAttribute('viewBox','0 0 120 180');
+    const uso = document.createElementNS('http://www.w3.org/2000/svg','use');
+    uso.setAttribute('href','#pie' + n);
+    el.appendChild(uso);
+  }
+
+  el.classList.add('pie');
+  el.style.width  = ancho + 'px';
+  el.style.height = CONFIG.USAR_IMAGENES ? 'auto' : alto + 'px';
+  escena.appendChild(el);
+
+  const velocidad = azar(1.6, 3.4);
+  const angulo    = azar(0, Math.PI * 2);
+
+  const p = {
+    el, ancho, alto,
+    x   : azar(0, Math.max(0, anchoVentana() - ancho)),
+    y   : azar(0, Math.max(0, altoVentana()  - alto)),
+    vx  : Math.cos(angulo) * velocidad,
+    vy  : Math.sin(angulo) * velocidad,
+    giro: azar(0, 360),
+    vg  : azar(-2.2, 2.2)
+  };
+
+  pies.push(p);
+
+  // Con fotos reales, cada una tiene su proporción: la respetamos
+  if (CONFIG.USAR_IMAGENES){
+    const ajustar = () => {
+      if (el.naturalWidth) p.alto = ancho * (el.naturalHeight / el.naturalWidth);
+      p.y = Math.min(p.y, Math.max(0, altoVentana() - p.alto));
+    };
+    if (el.complete) ajustar();
+    else el.addEventListener('load', ajustar);
+  }
+}
+
+function bucle(){
+  const w = anchoVentana();
+  const h = altoVentana();
+
+  for (const p of pies){
+    p.x += p.vx * multiplicador;
+    p.y += p.vy * multiplicador;
+
+    if (p.x <= 0)             { p.x = 0;             p.vx = Math.abs(p.vx); }
+    if (p.x >= w - p.ancho)   { p.x = w - p.ancho;   p.vx = -Math.abs(p.vx); }
+    if (p.y <= 0)             { p.y = 0;             p.vy = Math.abs(p.vy); }
+    if (p.y >= h - p.alto)    { p.y = h - p.alto;    p.vy = -Math.abs(p.vy); }
+
+    p.giro += p.vg * multiplicador;
+    p.el.style.transform =
+      'translate3d(' + p.x.toFixed(1) + 'px,' + p.y.toFixed(1) + 'px,0) rotate(' + p.giro.toFixed(1) + 'deg)';
+  }
+
+  requestAnimationFrame(bucle);
+}
+
+function moverBoton(){
+  const margen = 16;
+  const w = boton.offsetWidth  || 160;
+  const h = boton.offsetHeight || 60;
+  boton.style.left = azar(margen, Math.max(margen, anchoVentana() - w - margen)) + 'px';
+  boton.style.top  = azar(margen, Math.max(margen, altoVentana()  - h - margen)) + 'px';
+}
+
+function vibrar(ms){
+  if (navigator.vibrate) navigator.vibrate(ms);
+}
+
+function empezar(){
+  if (corriendo) return;
+  corriendo = true;
+
+  vibrar(40);
+  abrir.classList.add('fuera');
+  setTimeout(() => portada.remove(), 400);
+
+  for (let i = 0; i < CONFIG.PIES_INICIALES; i++) crearPie();
+  requestAnimationFrame(bucle);
+
+  setInterval(crearPie, CONFIG.MS_ENTRE_PIES);
+
+  setTimeout(() => {
+    boton.hidden = false;
+    boton.style.left = (anchoVentana()  / 2 - boton.offsetWidth  / 2) + 'px';
+    boton.style.top  = (altoVentana() * 0.82) + 'px';
+  }, 1800);
+}
+
+boton.addEventListener('click', () => {
+  pulsaciones++;
+  vibrar([30, 40, 60]);
+
+  for (let i = 0; i < CONFIG.PIES_POR_PULSAR; i++) crearPie();
+  multiplicador = Math.min(multiplicador * CONFIG.ACELERACION, CONFIG.VELOCIDAD_MAX);
+
+  const textos = CONFIG.TEXTOS_BOTON;
+  boton.textContent = textos[Math.min(pulsaciones, textos.length - 1)];
+
+  moverBoton();
+});
+
+abrir.addEventListener('click', empezar);
+
+window.addEventListener('resize', () => {
+  const w = anchoVentana();
+  const h = altoVentana();
+  for (const p of pies){
+    p.x = Math.min(p.x, Math.max(0, w - p.ancho));
+    p.y = Math.min(p.y, Math.max(0, h - p.alto));
+  }
+  if (!boton.hidden){
+    boton.style.left = Math.min(parseFloat(boton.style.left) || 0, w - boton.offsetWidth  - 16) + 'px';
+    boton.style.top  = Math.min(parseFloat(boton.style.top)  || 0, h - boton.offsetHeight - 16) + 'px';
+  }
+});
+</script>
+</body>
+</html>
